@@ -1,0 +1,127 @@
+.calendar-container {
+  width: 90%;
+  margin: 20px auto;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-family: sans-serif;
+}
+
+.calendar-header {
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  border-bottom: 1px solid #eee;
+  color: #2b4966;
+}
+
+.calendar-header button {
+  background: none;
+  border: none;
+  font-size: 1.2em;
+  cursor: pointer;
+  padding: 5px;
+  color: #2b4966;
+}
+
+.calendar-header h2 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.calendar-days-of-week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding: 5px;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+  font-size: 0.8em;
+  color: #555;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.calendar-day {
+  padding: 10px;
+  text-align: center;
+  border-right: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  font-size: 0.9em;
+  box-sizing: border-box; /* Ensure padding doesn't increase the overall size */
+}
+
+.calendar-day:nth-child(7n) {
+  border-right: none;
+}
+
+.calendar-day.empty {
+  background-color: #f9f9f9;
+  border: none;
+}
+
+.calendar-day.today {
+  font-weight: bold;
+}
+
+.on-time {
+  background-color: #c8e6c9; /* Light green */
+}
+
+.absent {
+  background-color: #ffcdd2; /* Light red */
+}
+
+.late {
+  background-color: #bbdefb; /* Light blue */
+}
+
+.leave {
+  background-color: #ffe0b2; /* Light orange */
+}
+
+/* Media query for smaller screens (e.g., tablets) */
+@media (max-width: 768px) {
+  .calendar-container {
+    width: 95%;
+    margin: 15px auto;
+  }
+
+  .calendar-header h2 {
+    font-size: 1.1em;
+  }
+
+  .calendar-days-of-week {
+    font-size: 0.7em;
+  }
+
+  .calendar-day {
+    padding: 8px;
+    font-size: 0.8em;
+  }
+}
+
+/* Media query for even smaller screens (e.g., mobile phones) */
+@media (max-width: 480px) {
+  .calendar-header button {
+    font-size: 1em;
+  }
+
+  .calendar-header h2 {
+    font-size: 1em;
+  }
+
+  .calendar-days-of-week {
+    font-size: 0.6em;
+  }
+
+  .calendar-day {
+    padding: 6px;
+    font-size: 0.7em;
+  }
+}
