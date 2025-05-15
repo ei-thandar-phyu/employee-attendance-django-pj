@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './LeaveRequestForm.css';
-import { FaTrash, FaCheck, FaTimes, FaClock } from 'react-icons/fa';
+import { FaTrash, FaCheck, FaTimes, FaClock, FaHome, FaChartBar } from 'react-icons/fa';
+import { FcLeave } from 'react-icons/fc';
+import { MdEditCalendar, MdLogout } from "react-icons/md";
+import { TbLockPassword } from "react-icons/tb";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { getCookie } from './utils';
@@ -13,6 +16,12 @@ const LeaveRequestForm = () => {
     leaveDuration: '',
     reason: ''
   });
+
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed
+  const day = String(today.getDate()).padStart(2, '0');
+  const todayDate = `${year}-${month}-${day}`;
 
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
@@ -91,7 +100,11 @@ const LeaveRequestForm = () => {
   const validateForm = () => {
     const newErrors = {};
     if (!formData.startDate) newErrors.startDate = 'Start date is required';
+    const startday = new Date(formData.startDate).getDay();
+    if (startday === 0 || startday === 6) newErrors.startDate = 'Start date cannot be a holiday';
     if (!formData.endDate) newErrors.endDate = 'End date is required';
+    const endday = new Date(formData.endDate).getDay();
+    if (endday === 0 || endday === 6) newErrors.endDate = 'Start date cannot be a holiday';
     if (!formData.leaveType) newErrors.leaveType = 'Leave type is required';
     if (!formData.leaveDuration) newErrors.leaveDuration = 'Leave Duration is required';
     if (!formData.reason) newErrors.reason = 'Reason is required';
@@ -123,7 +136,7 @@ const LeaveRequestForm = () => {
         console.log(newLeave)
         
         try {
-          const response = await fetch('http://localhost:8000/api/submit-leave-request/', {
+          const response = await fetch('http://localhost:8000/api/leave-request/submit', {
               method: 'POST',
               credentials: 'include',
               headers: {
@@ -169,6 +182,10 @@ const LeaveRequestForm = () => {
        const response = await fetch(`http://localhost:8000/api/leave-requests/${id}/cancel/`, {
           method: 'POST',
           credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken'),
+          },
         });
 
       if (response.ok) {
@@ -211,10 +228,35 @@ const LeaveRequestForm = () => {
     return date.toLocaleString();
   };
 
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate('/');
+  const getAttendanceLink = () => {
+    if (localStorage.getItem('role') === 'manager') {
+      return '/dept-attendance';
+    } else {
+      return '/all-dept-attendance';
+    }
   };
+
+  const getLeaveLink = () => {
+    if (localStorage.getItem('role') === 'manager') {
+      return '/leave-approval';
+    } else {
+      return '/all-leave-approval';
+    }
+  };
+
+  const handleLogout = async () => {
+      try {
+        await fetch('http://localhost:8000/api/logout/', {
+          method: 'POST',
+          credentials: 'include',
+        });
+      } catch (error) {
+        console.error('Logout failed', error);
+      } finally {
+        localStorage.clear();
+        navigate('/');
+      }
+    };
 
   return (
     <div className="leave-container">
@@ -224,27 +266,35 @@ const LeaveRequestForm = () => {
           <h2>AttendancePro</h2>
         </div>
         <nav className="nav-menu">
-          <h5> Main</h5>
           <ul>                     
-            <li><a href="/home"> 🏠 Home</a></li>
-            <li className="active"><a href="/leave-request-form"> 📝 Leave </a></li>
+            <li><a href="/home"> <FaHome className="icon" /> Home</a></li>
+            <li className="active"><a href="/leave-request-form"> <FcLeave className="icon" /> Leave </a></li>
           </ul>
 
           {localStorage.getItem('role') !== 'staff' && (
             <>
               <h5> Management </h5>
               <ul>
-                <li><a href="/dept-attendance"> 📝 Attendance </a></li>
+                <li><a href={getAttendanceLink()}> <FaChartBar className="icon" /> Attendance</a></li>
+                <li><a href={getLeaveLink()}><MdEditCalendar className="icon" /> Leave Approval</a></li>
+            </ul>
+            </>
+          )}
+          {localStorage.getItem('role') !== 'staff' && localStorage.getItem('role') !== 'manager' && (
+            <>
+              <ul>
+                <li><a href="/all-employees"> <FaChartBar className="icon" /> Employees</a></li>
+                
             </ul>
             </>
           )}
 
           <h5> Settings </h5>
           <ul>                     
-            <li><a href="/change-password"> 🔑 Change Password </a></li>
+            <li><a href="/change-password"> <TbLockPassword className="icon" /> Change Password </a></li>
             <li>
               <a href="#" onClick={handleLogout}>
-                ➡️ Logout
+                <MdLogout className="icon" />  Logout
               </a>
             </li>
           </ul>
@@ -282,7 +332,7 @@ const LeaveRequestForm = () => {
                   name="startDate"
                   value={formData.startDate}
                   onChange={handleChange}
-                  min={new Date().toISOString().split('T')[0]}
+                  min={todayDate}
                   max={new Date(new Date().getFullYear(), 11, 31).toISOString().split('T')[0]}
                   className={errors.startDate ? 'error' : ''}
                 />
@@ -296,7 +346,7 @@ const LeaveRequestForm = () => {
                   name="endDate"
                   value={formData.endDate}
                   onChange={handleChange}
-                  min={new Date().toISOString().split('T')[0]}
+                  min={todayDate}
                   max={new Date(new Date().getFullYear(), 11, 31).toISOString().split('T')[0]}
                   className={errors.endDate ? 'error' : ''}
                 />

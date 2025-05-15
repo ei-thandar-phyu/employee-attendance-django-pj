@@ -8,6 +8,9 @@ import AllDeptAttendance from './components/AllDeptAttendance';
 import Home from './components/Home';
 import LeaveRequestForm from './components/LeaveRequestForm';
 import PasswordChange from './components/PasswordChange';
+import LeaveApproval from './components/LeaveApproval';
+import AllLeaveApproval from './components/AllLeaveApproval';
+import ManageEmployees from './components/ManageEmployees';
 
 function App() {
   //✅ Get CSRF token on app start
@@ -30,7 +33,11 @@ function App() {
         <Route path="/change-password" element={<PasswordChange />} />
 
         <Route path="/dept-attendance" element={<DeptAttendance />} />
+        <Route path="/leave-approval" element={<LeaveApproval />} />
+
         <Route path="/all-dept-attendance" element={<AllDeptAttendance />} />
+        <Route path="/all-employees" element={<ManageEmployees />} />
+        <Route path="/all-leave-approval" element={<AllLeaveApproval />} />
 
         <Route path="*" element={<p>404 Not Found</p>} />
       </Routes>

@@ -6,9 +6,8 @@ from datetime import timedelta
 class Employee(models.Model):
     ROLES = [
     ('STAFF', 'Staff'),
-    ('HR', 'HR'),
     ('MANAGER', 'Manager'),
-    ('CEO', 'CEO')
+    ('ADMIN', 'Admin'),
     ]
     
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -106,8 +105,14 @@ class LeaveRequest(models.Model):
         # Calculate the leave days based on duration and the leave type's total days
         if self.status == 'APPROVED':
             leave_balance, created = LeaveBalance.objects.get_or_create(user=self.user, leave_type=self.leave_type)
-            total_days = (self.end_date - self.start_date).days + 1
-
+            
+            total_days = 0
+            current_date = self.start_date
+            while current_date <= self.end_date:
+                if current_date.weekday() < 5:  # 0 = Monday, ..., 4 = Friday
+                    total_days += 1
+                current_date += timedelta(days=1)
+            
             if self.leave_duration == 'FULL_LEAVE':
                 days_to_add = total_days
             elif self.leave_duration == 'AM_LEAVE' or self.leave_duration == 'PM_LEAVE':
@@ -149,9 +154,16 @@ class LeaveRequest(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.request_to:
-            self.request_to = self.user.employee.report_to.user
+            try:
+                self.request_to = self.user.employee.report_to.user
+            except AttributeError:
+                self.request_to = None
         
-        if self.status in ['APPROVED','REJECTED']:
+        if self.user.employee.role == 'ADMIN' and self.request_to is None:
+            self.status = 'APPROVED'
+            self.app_rej_at = timezone.now()
+        
+        if self.status in ['APPROVED', 'REJECTED'] and not self.app_rej_at:
             self.app_rej_at = timezone.now()
 
         is_new_approval = False

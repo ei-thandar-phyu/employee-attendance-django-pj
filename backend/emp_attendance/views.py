@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 import json
@@ -31,9 +31,12 @@ def employee_login(request):
                 return JsonResponse({'message': 'Authentication required'}, status=401)
 
             employee = Employee.objects.get(user=user)
-            fullname = f"{user.first_name} {user.last_name}"
+            fullname = user.get_full_name()
             role_name = employee.role.lower()
-            dept = employee.department.department_name
+            if role_name == 'admin':
+                dept = ''
+            else:
+                dept = employee.department.department_name
 
             # if role_name == 'ceo':
             #     redirect_url = '/ceo-dashboard/'
@@ -57,6 +60,10 @@ def employee_login(request):
 
     except json.JSONDecodeError:
         return JsonResponse({'detail': 'Invalid JSON'}, status=400)
+
+def employee_logout(request):
+    logout(request)
+    return JsonResponse({'message': 'Logged out successfully.'})
 
 def get_personal_data(request):
     if not request.user.is_authenticated:
@@ -209,11 +216,20 @@ def get_available_leave(request):
 
     return JsonResponse({'leave_types': available_leave})
 
-@require_POST
+def count_workingdays(start_date, end_date):
+    weekday_count = 0
+    current_date = start_date
+    while current_date <= end_date:
+        if current_date.weekday() < 5:  # 0 = Monday, ..., 4 = Friday
+            weekday_count += 1
+        current_date += timedelta(days=1)
+    return weekday_count
+
 def submit_leave_request(request):
     data = json.loads(request.body)
-    user = get_user(request)
-
+    user = request.user
+    if not user.is_authenticated:
+        return JsonResponse({'error': 'Authentication required'}, status=401)
     try:
         user = user
         start_date_str = data.get('start_date')
@@ -231,7 +247,7 @@ def submit_leave_request(request):
         except LeaveBalance.DoesNotExist:
             available_days = leave_type.total_days
         
-        delta = (end_date - start_date).days + 1
+        delta = count_workingdays(start_date, end_date)
         if leave_duration in ['AM_LEAVE', 'AM_LEAVE']:
             requested_leaves = 0.5 * delta
         else:
