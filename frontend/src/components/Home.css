@@ -60,6 +60,10 @@
   margin-right: 10px;
 }
 
+.icon {
+  margin-right: 8px;
+}
+
 /* Main Content Styles */
 .main-content {
   flex: 1;

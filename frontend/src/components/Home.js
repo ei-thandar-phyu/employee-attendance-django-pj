@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { FaHome, FaChartBar } from 'react-icons/fa';
+import { FcLeave } from 'react-icons/fc';
+import { MdEditCalendar, MdLogout } from "react-icons/md";
+import { TbLockPassword } from "react-icons/tb";
 import Calendar from './Calendar';
 import './Home.css';
 import { useNavigate } from 'react-router-dom';
@@ -97,11 +101,28 @@ const Home = () => {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate('/');
+  const getLeaveLink = () => {
+    if (localStorage.getItem('role') === 'manager') {
+      return '/leave-approval';
+    } else {
+      return '/all-leave-approval';
+    }
   };
 
+  const handleLogout = async () => {
+    try {
+      await fetch('http://localhost:8000/api/logout/', {
+        method: 'POST',
+        credentials: 'include',
+        
+      });
+    } catch (error) {
+      console.error('Logout failed', error);
+    } finally {
+      localStorage.clear();
+      navigate('/');
+    }
+  };
 
   
   return (
@@ -112,31 +133,38 @@ const Home = () => {
           <h2>AttendancePro</h2>
         </div>
         <nav className="nav-menu">
-          <h5> Main</h5>
           <ul>                     
-            <li className="active"><a href="/home"> 🏠 Home</a></li>
-            <li><a href="/leave-request-form"> 📝 Leave </a></li>
+            <li className="active"><a href="/home"> <FaHome className="icon" /> Home</a></li>
+            <li><a href="/leave-request-form"> <FcLeave className="icon" /> Leave </a></li>
           </ul>
 
           {localStorage.getItem('role') !== 'staff' && (
             <>
               <h5> Management </h5>
               <ul>
-                <li><a href={getAttendanceLink()}>📝 Attendance</a></li>
+                <li><a href={getAttendanceLink()}> <FaChartBar className="icon" /> Attendance</a></li>
+                <li><a href={getLeaveLink()}><MdEditCalendar className="icon" /> Leave Approval</a></li>
+            </ul>
+            </>
+          )}
+          {localStorage.getItem('role') !== 'staff' && localStorage.getItem('role') !== 'manager' && (
+            <>
+              <ul>
+                <li><a href="/all-employees"> <FaChartBar className="icon" /> Employees</a></li>
+                
             </ul>
             </>
           )}
 
           <h5> Settings </h5>
           <ul>                     
-            <li><a href="/change-password"> 🔑 Change Password </a></li>
+            <li><a href="/change-password"> <TbLockPassword className="icon" /> Change Password </a></li>
             <li>
               <a href="#" onClick={handleLogout}>
-                ➡️ Logout
+                <MdLogout className="icon" />  Logout
               </a>
             </li>
           </ul>
-
         </nav>
       </div>
 

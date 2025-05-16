@@ -119,9 +119,9 @@ const Login = () => {
             {isSubmitting ? 'Logging in...' : 'Login'}
           </button>
         </form>
-        <div className="form-footer">
+        {/* <div className="form-footer">
           <a href="/forgot-password">Forgot password?</a>
-        </div>
+        </div> */}
       </div>
     </div>
   );
