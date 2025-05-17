@@ -114,23 +114,23 @@ npm start
 Here are a few key pages from the system. 
 
 ### 🏠 Home
-![Home_Page](screenshots/homePage.png)
+![Home_Page](screenshots/homePage.PNG)
 
 ### 📝 Submit Leave Request & View History
-![Leave Request](screenshots/leaveRequestAndHistory.png)
+![Leave Request](screenshots/leaveRequestAndHistory.PNG)
 
 ### 📊 Department Attendance Overview (Sales)
-![Sales_Dept_Attendance](screenshots/salesDeptAttendance.png)
+![Sales_Dept_Attendance](screenshots/salesDeptAttendance.PNG)
 
 ### 🗂️ Review & Approve Leave Requests (Manager View)
 
-![Leave_Approval](screenshots/leaveApprovalPage.png)
+![Leave_Approval](screenshots/leaveApprovalPage.PNG)
 
 ### 🏢 Company-Wide Attendance Overview (Admin Only)
-![All_Depts_Attendance](screenshots/allDeptAttendance.png)
+![All_Depts_Attendance](screenshots/allDeptAttendance.PNG)
 
 ### 👥 Employee Management (Admin Only)
-![Manage_Employees](screenshots/manageEmployeesPage.png)
+![Manage_Employees](screenshots/manageEmployeesPage.PNG)
 
 📸 **See more screenshots in the [`screenshots/`](./screenshots) folder.**
 
