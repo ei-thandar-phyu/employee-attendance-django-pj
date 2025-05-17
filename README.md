@@ -121,17 +121,19 @@ Here are a few key pages from the system. 📸 **See more screenshots in the [`s
 ### 📝 Submit Leave Request & View History
 ![Leave Request](screenshots/leaveRequestAndHistory.PNG)
 
-### 📊 Department Attendance Overview (Sales)
+### 📊 Department Attendance Overview (Sales Manager View)
 ![Sales_Dept_Attendance](screenshots/salesDeptAttendance.PNG)
 
 ### 🗂️ Review & Approve Leave Requests (Manager View)
-
 ![Leave_Approval](screenshots/leaveApprovalPage.PNG)
 
-### 🏢 Company-Wide Attendance Overview (Admin Only)
+### 🏢 Company-Wide Attendance Overview (Admin View)
 ![All_Depts_Attendance](screenshots/allDeptAttendance.PNG)
 
-### 👥 Employee Management (Admin Only)
+### 📝 Leave Approval (Admin View)
+![Leave_Approval_Admin](screenshots/allLeaveApprovalPage.png)
+
+### 👥 Employee Management (Admin View)
 ![Manage_Employees](screenshots/manageEmployeesPage.PNG)
 
 
