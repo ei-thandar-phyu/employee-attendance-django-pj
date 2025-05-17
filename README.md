@@ -24,7 +24,7 @@ A full-featured **Employee Attendance System** built with **Django**, **React.js
 - 📝 Admins' own leave requests are auto-approved if not submitted to a designated reviewer.
 - 🏢 Admin users may or may not belong to a specific department. The system supports both use cases.
 - 🌍 View attendance and leave records across all departments
-- 👥 View leave request history (who requested, who approved)
+- 👥 View leave request history
 - ➕ Add new employees
 - ✏️ Edit employee data (except username, email, password)
 - 🗑️ Delete employees (Admin accounts cannot be deleted)
