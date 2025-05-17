@@ -50,9 +50,9 @@ A full-featured **Employee Attendance System** built with **Django**, **React.js
 
 ## Tech Stack
 
-- **Backend**: Django
-- **Frontend**: React.js
-- **Database**: PostgreSQL
+- Serving Django applications via a Python web server | Server Interface | WSGI (via wsgi.py)
+- React.js | CSS
+- PostgreSQL
 
 ---
 
