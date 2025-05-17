@@ -112,6 +112,9 @@ npm start
   - Submit and track leave requests
   - Change their password
 
+## 🎥 Watch Demo Video
+![Watch Demo Video](screenshots/EmployeeAttendanceSystem_Testing.mkv)
+
 ## Screenshots
 
 Here are a few key pages from the system. 📸 **See more screenshots in the [`screenshots/`](./screenshots) folder.**
