@@ -21,11 +21,30 @@ A full-featured **Employee Attendance System** built with **Django**, **React.js
 - ✔️ Approve or ❌ Reject leave requests from staff
 
 ### Admin Features
+- 📝 Admins' own leave requests are auto-approved if not submitted to a designated reviewer.
+- 🏢 Admin users may or may not belong to a specific department. The system supports both use cases.
 - 🌍 View attendance and leave records across all departments
 - 👥 View leave request history (who requested, who approved)
 - ➕ Add new employees
 - ✏️ Edit employee data (except username, email, password)
 - 🗑️ Delete employees (Admin accounts cannot be deleted)
+
+---
+
+## Known Limitations
+
+📆 Currently, the system counts leave days without excluding weekends (Saturday and Sunday) but public holidays are not handled yet.
+
+---
+
+## Future Enhancements
+- 🔐 Forgot Password Functionality – Allow users to reset their password via email.
+- 📆 Public Holiday Integration – Exclude public holidays from leave.
+- 📊 Analytics Dashboard – Show graphs for attendance trends, late statistics, leave types over time.
+- 📧 Email Notifications – Notify managers and staff when a leave request is submitted, approved, or rejected.
+- 🧾 Downloadable Reports – Export attendance and leave data as PDF/CSV.
+- 📍 Geolocation Clock-In (GPS) – Ensure users clock in from valid physical locations.
+- 💰 Payroll Integration – Generate monthly salary reports based on attendance
 
 ---
 
@@ -92,26 +111,9 @@ npm start
   - Submit and track leave requests
   - Change their password
 
----
-
-## Known Limitations
-
-📆 Currently, the system counts leave days without excluding weekends (Saturday and Sunday) but public holidays are not handled yet.
-
----
-
-## Future Enhancements
-- 🔐 Forgot Password Functionality – Allow users to reset their password via email.
-- 📆 Public Holiday Integration – Exclude public holidays from leave.
-- 📊 Analytics Dashboard – Show graphs for attendance trends, late statistics, leave types over time.
-- 📧 Email Notifications – Notify managers and staff when a leave request is submitted, approved, or rejected.
-- 🧾 Downloadable Reports – Export attendance and leave data as PDF/CSV.
-- 📍 Geolocation Clock-In (GPS) – Ensure users clock in from valid physical locations.
-- 💰 Payroll Integration – Generate monthly salary reports based on attendance
-
 ## Screenshots
 
-Here are a few key pages from the system. 
+Here are a few key pages from the system. 📸 **See more screenshots in the [`screenshots/`](./screenshots) folder.**
 
 ### 🏠 Home
 ![Home_Page](screenshots/homePage.PNG)
@@ -131,7 +133,5 @@ Here are a few key pages from the system.
 
 ### 👥 Employee Management (Admin Only)
 ![Manage_Employees](screenshots/manageEmployeesPage.PNG)
-
-📸 **See more screenshots in the [`screenshots/`](./screenshots) folder.**
 
 
