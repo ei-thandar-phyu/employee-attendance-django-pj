@@ -42,7 +42,7 @@ A full-featured **Employee Attendance System** built with **Django**, **React.js
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/employee-attendance-system.git
+git clone https://github.com/ei-thandar-phyu/employee-attendance-django-pj.git
 ```
 
 ### 2. Setup PostgreSQL Database
