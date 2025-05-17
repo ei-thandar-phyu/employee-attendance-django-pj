@@ -58,6 +58,7 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+```
 
 ### 3. Backend Setup (Django)
 ```bash
