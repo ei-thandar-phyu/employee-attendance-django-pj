@@ -131,7 +131,7 @@ Here are a few key pages from the system. 📸 **See more screenshots in the [`s
 ![All_Depts_Attendance](screenshots/allDeptAttendance.PNG)
 
 ### 📝 Leave Approval (Admin View)
-![Leave_Approval_Admin](screenshots/allLeaveApprovalPage.png)
+![Leave_Approval_Admin](screenshots/allLeaveApprovalPage.PNG)
 
 ### 👥 Employee Management (Admin View)
 ![Manage_Employees](screenshots/manageEmployeesPage.PNG)
