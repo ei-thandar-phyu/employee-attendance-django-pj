@@ -55,7 +55,13 @@ def add_new_employee(request):
     is_active = data.get('isActive')
 
     try:
-        if report_to_username == "":
+        if User.objects.filter(username=username).exists():
+            return JsonResponse({'error': 'Username already exists.'}, status=400)
+
+        if User.objects.filter(email=email).exists():
+            return JsonResponse({'error': 'Email already exists.'}, status=400)
+
+        if report_to_username is None or report_to_username == "" :
             report_to_employee = None
         else:
             try:
@@ -63,7 +69,7 @@ def add_new_employee(request):
                 report_to_employee = Employee.objects.get(user=report_to_user)
             except User.DoesNotExist:
                 return JsonResponse({'error': 'Invalid report_to username'}, status=400)
-        if department_name == "":
+        if department_name is None or department_name == "":
             department = None
         else:
             try:
@@ -114,7 +120,7 @@ def edit_employee(request, emp_id):
         employee = Employee.objects.get(id=emp_id)
         user = employee.user
 
-        if report_to_username == "":
+        if report_to_username is None or report_to_username == "" :
             report_to_employee = None
         else:
             try:
@@ -122,7 +128,7 @@ def edit_employee(request, emp_id):
                 report_to_employee = Employee.objects.get(user=report_to_user)
             except User.DoesNotExist:
                 return JsonResponse({'error': 'Invalid report_to username'}, status=400)
-        if department_name == "":
+        if department_name is None or department_name == "":
             department = None
         else:
             try:

@@ -100,7 +100,10 @@ const DeptAttendance = () => {
       await fetch('http://localhost:8000/api/logout/', {
         method: 'POST',
         credentials: 'include',
-        
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCookie('csrftoken'),
+        }
       });
     } catch (error) {
       console.error('Logout failed', error);
