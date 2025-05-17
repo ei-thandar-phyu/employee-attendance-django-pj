@@ -10,7 +10,7 @@ A full-featured **Employee Attendance System** built with **Django**, **React.js
 - ✅ Clock In / Clock Out
 - 📅 View attendance calendar (🟩On-Time, 🟦Late, 🟧Leave)
 - 📝 View leave taken by type (e.g., Sick, Casual, Annual)
-- 📤 Submit leave requests
+- 📤 Submit leave requests 
 - ❌ Cancel leave requests before approval/rejection
 - 📚 View leave request history
 - 🔐 Change password
@@ -94,7 +94,44 @@ npm start
 
 ---
 
+## Known Limitations
+
+📆 Currently, the system counts leave days without excluding weekends (Saturday and Sunday) but public holidays are not handled yet.
+
+---
+
+## Future Enhancements
+- 🔐 Forgot Password Functionality – Allow users to reset their password via email.
+- 📆 Public Holiday Integration – Exclude public holidays from leave.
+- 📊 Analytics Dashboard – Show graphs for attendance trends, late statistics, leave types over time.
+- 📧 Email Notifications – Notify managers and staff when a leave request is submitted, approved, or rejected.
+- 🧾 Downloadable Reports – Export attendance and leave data as PDF/CSV.
+- 📍 Geolocation Clock-In (GPS) – Ensure users clock in from valid physical locations.
+- 💰 Payroll Integration – Generate monthly salary reports based on attendance
+
 ## Screenshots
 
+Here are a few key pages from the system. 
+
+### 🏠 Home
+![Home_Page](screenshots/homePage.png)
+
+### 📝 Submit Leave Request & View History
+![Leave Request](screenshots/leaveRequestAndHistory.png)
+
+### 📊 Department Attendance Overview (Sales)
+![Sales_Dept_Attendance](screenshots/salesDeptAttendance.png)
+
+### 🗂️ Review & Approve Leave Requests (Manager View)
+
+![Leave_Approval](screenshots/leaveApprovalPage.png)
+
+### 🏢 Company-Wide Attendance Overview (Admin Only)
+![All_Depts_Attendance](screenshots/allDeptAttendance.png)
+
+### 👥 Employee Management (Admin Only)
+![Manage_Employees](screenshots/manageEmployeesPage.png)
+
+📸 **See more screenshots in the [`screenshots/`](./screenshots) folder.**
 
 
