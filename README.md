@@ -8,6 +8,7 @@ A full-featured **Employee Attendance System** built with **Django**, **React.js
 
 ### Shared Features (All Roles)
 - ✅ Clock In / Clock Out
+    - ⏰ Employees are marked as **LATE** if they clock in **after 8:15 AM**, allowing a 15-minute grace period beyond the official start time of 8:00 AM.
 - 📅 View attendance calendar (🟩On-Time, 🟦Late, 🟧Leave)
 - 📝 View leave taken by type (e.g., Sick, Casual, Annual)
 - 📤 Submit leave requests 
