@@ -101,13 +101,14 @@ const PasswordChange = () => {
             if (!response.ok) {
                 alert(data.message || 'Failed to change password.');
             } else {
-                setShowSuccess(true);
-                setFormData({
-                    currentPassword: '',
-                    newPassword: '',
-                    confirmPassword: '',
-                });
-                setTimeout(() => setShowSuccess(false), 5000);
+              handleLogout();
+                // setShowSuccess(true);
+                // setFormData({
+                //     currentPassword: '',
+                //     newPassword: '',
+                //     confirmPassword: '',
+                // });
+                //setTimeout(() => setShowSuccess(false), 5000);
             }
         } catch (error) {
             alert(error.message);
@@ -147,6 +148,10 @@ const PasswordChange = () => {
       await fetch('http://localhost:8000/api/logout/', {
         method: 'POST',
         credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCookie('csrftoken'),
+        }
       });
     } catch (error) {
       console.error('Logout failed', error);

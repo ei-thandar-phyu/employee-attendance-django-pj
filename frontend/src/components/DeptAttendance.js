@@ -25,11 +25,25 @@ const DeptAttendance = () => {
         'ABSENT': '#e74c3c'
   };
 
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  const todayDate = `${year}-${month}-${day}`;
+  
+  const formatDateForInput = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
   const generateAttendanceData = async () => {
-    const year = selectedDate.getFullYear();
-    const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
-    const day = String(selectedDate.getDate()).padStart(2, '0');
-    const formattedDate = `${year}-${month}-${day}`;
+    // const year = selectedDate.getFullYear();
+    // const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
+    // const day = String(selectedDate.getDate()).padStart(2, '0');
+    // const formattedDate = `${year}-${month}-${day}`;
+    const formattedDate = formatDateForInput(selectedDate);
 
     console.log(department,formattedDate)
 
@@ -90,7 +104,10 @@ const DeptAttendance = () => {
       await fetch('http://localhost:8000/api/logout/', {
         method: 'POST',
         credentials: 'include',
-        
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCookie('csrftoken'),
+        }
       });
     } catch (error) {
       console.error('Logout failed', error);
@@ -153,8 +170,8 @@ const DeptAttendance = () => {
               <FaCalendarAlt className="calendar-icon" />
               <input 
                 type="date"
-                max={new Date().toISOString().split('T')[0]} 
-                value={selectedDate.toISOString().split('T')[0]} 
+                max={todayDate} 
+                value={formatDateForInput(selectedDate)} 
                 onChange={(e) => handleDateChange(new Date(e.target.value))}
               />
             </div>

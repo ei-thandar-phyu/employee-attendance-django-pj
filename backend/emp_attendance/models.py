@@ -92,7 +92,7 @@ class LeaveRequest(models.Model):
     leave_type = models.ForeignKey(LeaveType, on_delete=models.SET_NULL, null=True)
     leave_duration = models.CharField(max_length=10, choices=LEAVE_DURATION_CHOICES, default='FULL_LEAVE')
     reason = models.TextField(blank=True, null=True)
-    requested_at = models.DateTimeField(auto_now_add=True, null=True)
+    requested_at = models.DateTimeField(default=timezone.now)
     request_to = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='leave_request_to')
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='PENDING')
     app_rej_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='leave_approved_rejected')
@@ -128,27 +128,28 @@ class LeaveRequest(models.Model):
     def update_attendance_log(self):
         current_date = self.start_date
         while current_date <= self.end_date:
-            leave_type = self.leave_duration
-            
-            try:
-                attendance = AttendanceLog.objects.get(user=self.user, log_date=current_date)
-                # Already clocked in — update status only (preserve times)
-                attendance.status = leave_type
-                attendance.save()
+            if current_date.weekday() < 5:  # Only consider weekdays
+                leave_type = self.leave_duration
+                
+                try:
+                    attendance = AttendanceLog.objects.get(user=self.user, log_date=current_date)
+                    # Already clocked in — update status only (preserve times)
+                    attendance.status = leave_type
+                    attendance.save()
 
-            except AttendanceLog.DoesNotExist:
-                # No attendance yet — create a new record
-                status_code = leave_type
+                except AttendanceLog.DoesNotExist:
+                    # No attendance yet — create a new record
+                    status_code = leave_type
 
-                AttendanceLog.objects.create(
-                    user=self.user,
-                    log_date=current_date,
-                    clock_in_time=None,
-                    clock_out_time=None,
-                    clock_in_method=None,
-                    clock_out_method=None,
-                    status=status_code
-                )
+                    AttendanceLog.objects.create(
+                        user=self.user,
+                        log_date=current_date,
+                        clock_in_time=None,
+                        clock_out_time=None,
+                        clock_in_method=None,
+                        clock_out_method=None,
+                        status=status_code
+                    )
 
             current_date += timedelta(days=1)
 

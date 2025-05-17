@@ -32,7 +32,7 @@ const ManageEmployees = () => {
     department: '',
     phone: '',
     joinedAt: new Date().toISOString().split('T')[0],
-    role: 'Staff',
+    role: '',
     reportTo: '',
     isActive: true
   });
@@ -144,7 +144,7 @@ const ManageEmployees = () => {
         if (!response.ok){
           const errorData = await response.json();
           console.error('Error:', errorData);
-          alert('Failed to add employee. Please check the form data.');
+          alert(errorData.error || 'Failed to add employee.');
           return;
         }
 
@@ -280,7 +280,10 @@ const ManageEmployees = () => {
       await fetch('http://localhost:8000/api/logout/', {
         method: 'POST',
         credentials: 'include',
-        
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCookie('csrftoken'),
+        }
       });
     } catch (error) {
       console.error('Logout failed', error);
@@ -388,6 +391,7 @@ const ManageEmployees = () => {
                       </button>
                       <button 
                         className="delete-btn"
+                        disabled={employee.role === 'ADMIN'}
                         onClick={() => setShowDeleteConfirm(employee.id)}
                       >
                         <FaTrash /> Delete
@@ -602,8 +606,9 @@ const ManageEmployees = () => {
                     value={formData.email}
                     onChange={handleInputChange}
                     className={errors.email ? 'error' : ''}
+                    disabled
                   />
-                  {errors.email && <span className="error-message">{errors.email}</span>}
+                  
                 </div>
 
                 <div className="form-group">
@@ -612,10 +617,10 @@ const ManageEmployees = () => {
                     type="text"
                     name="firstName"
                     value={formData.firstName}
-                    onChange={handleInputChange}
+                    onChange={handleInputChange}                  
                     className={errors.firstName ? 'error' : ''}
                   />
-                  {errors.firstName && <span className="error-message">{errors.firstName}</span>}
+                  
                 </div>
 
                 <div className="form-group">
@@ -688,7 +693,7 @@ const ManageEmployees = () => {
                     onChange={handleInputChange}
                     className={errors.role ? 'error' : ''}
                   >
-                    <option value="">Select Department</option>
+                    <option value="">Select Role:</option>
                     {roles.map((role, index) => (
                       <option key={index} value={role}>{role}</option>
                     ))}
